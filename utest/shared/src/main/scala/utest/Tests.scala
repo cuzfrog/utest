@@ -1,6 +1,7 @@
 package utest
 
 import utest.framework.{TestCallTree, Tree}
+
 import scala.language.experimental.macros
 import scala.collection.mutable
 import scala.reflect.macros._
@@ -52,7 +53,18 @@ object Tests{
         case q"""$p($value).-($body)""" if checkLhs(p) => (Some(literalValue(value)), body)
       }
 
-      def recurse(t: c.Tree, path: Seq[String]): (c.Tree, Seq[c.Tree]) = {
+      def extractAutoCloseable(normalExprs: List[c.Tree]): List[c.Tree] = {
+        normalExprs.collect{
+          case q"$mods val $name = utest.`package`.utestAutoClose[$tpe]($body)" =>
+            q"""try{$name.close()}catch{
+               case e: Exception=> () //scala.util.control.NonFatal should be used
+               case e => throw e
+            }"""
+        }
+      }
+
+      def recurse(t: c.Tree, path: Seq[String],
+                  clearHook: List[c.Tree] = List.empty): (c.Tree, Seq[c.Tree]) = {
         val b = t match{
           case b: Block => b
           case t => Block(Nil, t)
@@ -80,6 +92,7 @@ object Tests{
           }else{
             (normal.init, normal.last)
           }
+        val normalAutoCloseable = extractAutoCloseable(normal2)
 
         val (names, bodies) = {
           var index = 0
@@ -101,7 +114,7 @@ object Tests{
 
         val (childCallTrees, childNameTrees) =
           names.zip(bodies)
-            .map{case (name, body) => recurse(body, path :+ name)}
+            .map{case (name, body) => recurse(body, path :+ name, normalAutoCloseable)} //delegate autoCloseable as clear hook to inner tree
             .unzip
 
         val nameTree = names.zip(childNameTrees).map{
@@ -112,7 +125,12 @@ object Tests{
         new _root_.utest.framework.TestCallTree({
           ..$normal2
           ${
-          if (childCallTrees.isEmpty) q"_root_.scala.Left($last)"
+          if (childCallTrees.isEmpty) {
+            q"""_root_.scala.Left((
+               _root_.scala.util.Try(_root_.utest.framework.StackMarker.dropOutside($last)),
+               ()=>{..$clearHook}
+            ))"""
+          }
           else q"$last; _root_.scala.Right(Array(..$childCallTrees))"
         }
         })

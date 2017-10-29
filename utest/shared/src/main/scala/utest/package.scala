@@ -22,7 +22,7 @@ package object utest extends utest.asserts.Asserts{
      * meaning outside that block
      */
     @reflect.internal.annotations.compileTimeOnly("String#- method should only be used directly inside a TestSuite{} macro")
-    def -(x: => Any) = ()
+    def -(x: => Any): Unit = ()
   }
 
   @reflect.internal.annotations.compileTimeOnly("String#- method should only be used directly inside a TestSuite{} macro")
@@ -33,13 +33,13 @@ package object utest extends utest.asserts.Asserts{
      */
     @deprecated("Use the 'foo - {...} syntax instead")
     @reflect.internal.annotations.compileTimeOnly("Symbol#apply method should only be used directly inside a TestSuite{} macro")
-    def apply(x: => Any) = ()
+    def apply(x: => Any): Unit = ()
     /**
      * Used to demarcate tests with the `TestSuite{ ... }` block. Has no
      * meaning outside that block
      */
     @reflect.internal.annotations.compileTimeOnly("Symbol#- method should only be used directly inside a TestSuite{} macro")
-    def -(x: => Any) = ()
+    def -(x: => Any): Unit = ()
   }
 
   /**
@@ -51,9 +51,10 @@ package object utest extends utest.asserts.Asserts{
     /**
      * Declares a numbered test-case
      */
-    def -(x: => Any) = ()
+    def -(x: => Any): Unit = ()
   }
 
-
+  /** Mark the resource as auto closeable, so the macro will hook the `close()` at the end of test.*/
+  final def utestAutoClose[T<:{def close():Unit}](t:T):T = t
 }
 
