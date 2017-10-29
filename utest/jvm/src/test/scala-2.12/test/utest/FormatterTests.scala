@@ -48,37 +48,35 @@ object FormatterTests extends utest.TestSuite {
         val expected = trim(
           """X MyTestSuite.test1 0ms
             |  java.lang.Exception: wrapper
-            |    test.utest.FormatterTests$.liftedTree1$1(FormatterTests.scala:19)
-            |    test.utest.FormatterTests$.$anonfun$tests$3(FormatterTests.scala:17)
+            |    test.utest.FormatterTests$.$anonfun$tests$5(FormatterTests.scala:19)
             |  utest.AssertionError: try assert(x == 2)
             |  x: Int = 1
             |    utest.asserts.Asserts$.assertImpl(Asserts.scala:114)
-            |    test.utest.FormatterTests$.liftedTree1$1(FormatterTests.scala:17)
-            |    test.utest.FormatterTests$.$anonfun$tests$3(FormatterTests.scala:17)
+            |    test.utest.FormatterTests$.$anonfun$tests$5(FormatterTests.scala:17)
             |+ MyTestSuite.test2 0ms  1
             |X MyTestSuite.test3 0ms
             |  java.lang.IndexOutOfBoundsException: 10
             |    scala.collection.LinearSeqOptimized.apply(LinearSeqOptimized.scala:63)
             |    scala.collection.LinearSeqOptimized.apply$(LinearSeqOptimized.scala:61)
             |    scala.collection.immutable.List.apply(List.scala:86)
-            |    test.utest.FormatterTests$.$anonfun$tests$6(FormatterTests.scala:26)
+            |    test.utest.FormatterTests$.$anonfun$tests$14(FormatterTests.scala:26)
+            |    scala.runtime.java8.JFunction0$mcB$sp.apply(JFunction0$mcB$sp.java:12)
             |- MyTestSuite 0ms
             |  X test1 0ms
             |    java.lang.Exception: wrapper
-            |      test.utest.FormatterTests$.liftedTree1$1(FormatterTests.scala:19)
-            |      test.utest.FormatterTests$.$anonfun$tests$3(FormatterTests.scala:17)
+            |      test.utest.FormatterTests$.$anonfun$tests$5(FormatterTests.scala:19)
             |    utest.AssertionError: try assert(x == 2)
             |    x: Int = 1
             |      utest.asserts.Asserts$.assertImpl(Asserts.scala:114)
-            |      test.utest.FormatterTests$.liftedTree1$1(FormatterTests.scala:17)
-            |      test.utest.FormatterTests$.$anonfun$tests$3(FormatterTests.scala:17)
+            |      test.utest.FormatterTests$.$anonfun$tests$5(FormatterTests.scala:17)
             |  + test2 0ms  1
             |  X test3 0ms
             |    java.lang.IndexOutOfBoundsException: 10
             |      scala.collection.LinearSeqOptimized.apply(LinearSeqOptimized.scala:63)
             |      scala.collection.LinearSeqOptimized.apply$(LinearSeqOptimized.scala:61)
             |      scala.collection.immutable.List.apply(List.scala:86)
-            |      test.utest.FormatterTests$.$anonfun$tests$6(FormatterTests.scala:26)
+            |      test.utest.FormatterTests$.$anonfun$tests$14(FormatterTests.scala:26)
+            |      scala.runtime.java8.JFunction0$mcB$sp.apply(JFunction0$mcB$sp.java:12)
           """.stripMargin
         )
 
@@ -113,17 +111,13 @@ object FormatterTests extends utest.TestSuite {
         val expected = trim(
           """X MyTestSuite.test1 0ms
             |  java.lang.Exception: wrapper
-            |    test.utest.FormatterTests$.liftedTree1$1(Forma
-            |    tterTests.scala:19)
-            |    test.utest.FormatterTests$.$anonfun$tests$3(Fo
-            |    rmatterTests.scala:17)
+            |    test.utest.FormatterTests$.$anonfun$tests$5(Fo
+            |    rmatterTests.scala:19)
             |  utest.AssertionError: try assert(x == 2)
             |  x: Int = 1
             |    utest.asserts.Asserts$.assertImpl(Asserts.scal
             |    a:114)
-            |    test.utest.FormatterTests$.liftedTree1$1(Forma
-            |    tterTests.scala:17)
-            |    test.utest.FormatterTests$.$anonfun$tests$3(Fo
+            |    test.utest.FormatterTests$.$anonfun$tests$5(Fo
             |    rmatterTests.scala:17)
             |+ MyTestSuite.test2 0ms  1
             |X MyTestSuite.test3 0ms
@@ -134,22 +128,20 @@ object FormatterTests extends utest.TestSuite {
             |    earSeqOptimized.scala:61)
             |    scala.collection.immutable.List.apply(List.sca
             |    la:86)
-            |    test.utest.FormatterTests$.$anonfun$tests$6(Fo
-            |    rmatterTests.scala:26)
+            |    test.utest.FormatterTests$.$anonfun$tests$14(F
+            |    ormatterTests.scala:26)
+            |    scala.runtime.java8.JFunction0$mcB$sp.apply(JF
+            |    unction0$mcB$sp.java:12)
             |- MyTestSuite 0ms
             |  X test1 0ms
             |    java.lang.Exception: wrapper
-            |      test.utest.FormatterTests$.liftedTree1$1(For
-            |      matterTests.scala:19)
-            |      test.utest.FormatterTests$.$anonfun$tests$3(
-            |      FormatterTests.scala:17)
+            |      test.utest.FormatterTests$.$anonfun$tests$5(
+            |      FormatterTests.scala:19)
             |    utest.AssertionError: try assert(x == 2)
             |    x: Int = 1
             |      utest.asserts.Asserts$.assertImpl(Asserts.sc
             |      ala:114)
-            |      test.utest.FormatterTests$.liftedTree1$1(For
-            |      matterTests.scala:17)
-            |      test.utest.FormatterTests$.$anonfun$tests$3(
+            |      test.utest.FormatterTests$.$anonfun$tests$5(
             |      FormatterTests.scala:17)
             |  + test2 0ms  1
             |  X test3 0ms
@@ -160,8 +152,10 @@ object FormatterTests extends utest.TestSuite {
             |      inearSeqOptimized.scala:61)
             |      scala.collection.immutable.List.apply(List.s
             |      cala:86)
-            |      test.utest.FormatterTests$.$anonfun$tests$6(
-            |      FormatterTests.scala:26)
+            |      test.utest.FormatterTests$.$anonfun$tests$14
+            |      (FormatterTests.scala:26)
+            |      scala.runtime.java8.JFunction0$mcB$sp.apply(
+            |      JFunction0$mcB$sp.java:12)
           """.stripMargin
         )
 

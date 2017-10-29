@@ -71,11 +71,7 @@ object TestRunner {
             executor.utestWrap(revStringPath.reverse,
               try {
                 StackMarker.dropOutside{executor.utestBeforeEach(path)}
-                val res = tests.callTree.run(revIntPath.reverse) match {
-                  case x: Future[_] => x
-                  case notFuture => Future.successful(notFuture)
-                }
-                res
+                tests.callTree.run(revIntPath.reverse)
               } catch {
                 case e: Throwable => Future.failed(e)
               }finally {

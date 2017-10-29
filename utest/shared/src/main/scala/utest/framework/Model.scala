@@ -27,7 +27,7 @@ class TestCallTree(inner: => Either[(Try[Any], () => Unit), IndexedSeq[TestCallT
    * Runs the test in this [[TestCallTree]] at the specified `path`. Called
    * by the [[TestTreeSeq.run]] method and usually not called manually.
    */
-  def run(path: List[Int])(implicit ec: scala.concurrent.ExecutionContext): Any = {
+  def run(path: List[Int])(implicit ec: scala.concurrent.ExecutionContext): Future[Any] = {
     path match {
       case head :: tail =>
         val Right(children) = StackMarker.dropOutside(inner)
