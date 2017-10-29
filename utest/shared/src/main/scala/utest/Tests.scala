@@ -55,11 +55,12 @@ object Tests{
 
       def extractAutoCloseable(normalExprs: List[c.Tree]): List[c.Tree] = {
         normalExprs.collect{
-          case q"$mods val $name = utest.`package`.utestAutoClose[$tpe]($body)" =>
-            q"""try{$name.close()}catch{
+          case valDef @ q"val $name = utest.`package`.utestAutoClose[$tpe]($body)" =>
+            val t = q"""try{$name.close()}catch{
                case e: Exception=> () //scala.util.control.NonFatal should be used
                case e => throw e
             }"""
+            c.internal.changeOwner(t, NoSymbol, valDef.symbol.owner)
         }
       }
 
@@ -133,8 +134,7 @@ object Tests{
           }
           else q"$last; _root_.scala.Right(Array(..$childCallTrees))"
         }
-        })
-      """
+        })"""
 
         (callTree, nameTree)
       }
